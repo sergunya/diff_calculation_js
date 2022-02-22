@@ -20,31 +20,31 @@ test('empty jsons', () => {
 });
 
 test('check compare updated files', () => {
-    const actualResult = compareObjects(file1, file2);
-    expect(actualResult).toMatch('  - timeout: 50');
-    expect(actualResult).toMatch('  + timeout: 20');
-    expect(actualResult).toMatch('  + verbose: true');
-    expect(actualResult).toMatch('  - follow: false');
-    expect(actualResult).toMatch('    host: hexlet.io');
+  const actualResult = compareObjects(file1, file2);
+  expect(actualResult).toMatch('  - timeout: 50');
+  expect(actualResult).toMatch('  + timeout: 20');
+  expect(actualResult).toMatch('  + verbose: true');
+  expect(actualResult).toMatch('  - follow: false');
+  expect(actualResult).toMatch('    host: hexlet.io');
 });
 
 test('check compare emty and not empty', () => {
-    const actualResult = compareObjects(emptyFile, file2);
-    expect(actualResult).toMatch('  + host: hexlet.io');
-    expect(actualResult).toMatch('  + timeout: 20');
-    expect(actualResult).toMatch('  + verbose: true');
+  const actualResult = compareObjects(emptyFile, file2);
+  expect(actualResult).toMatch('  + host: hexlet.io');
+  expect(actualResult).toMatch('  + timeout: 20');
+  expect(actualResult).toMatch('  + verbose: true');
 });
 
 test('check compare not empty and empty', () => {
-    const actualResult = compareObjects(file2, emptyFile);
-    expect(actualResult).toMatch('  - host: hexlet.io');
-    expect(actualResult).toMatch('  - timeout: 20');
-    expect(actualResult).toMatch('  - verbose: true');
+  const actualResult = compareObjects(file2, emptyFile);
+  expect(actualResult).toMatch('  - host: hexlet.io');
+  expect(actualResult).toMatch('  - timeout: 20');
+  expect(actualResult).toMatch('  - verbose: true');
 });
 
 test('check compare the same file', () => {
-    const actualResult = compareObjects(file2, file2);
-    expect(actualResult).toMatch('    host: hexlet.io');
-    expect(actualResult).toMatch('    timeout: 20');
-    expect(actualResult).toMatch('    verbose: true');
+  const actualResult = compareObjects(file2, file2);
+  expect(actualResult).toMatch('    host: hexlet.io');
+  expect(actualResult).toMatch('    timeout: 20');
+  expect(actualResult).toMatch('    verbose: true');
 });
