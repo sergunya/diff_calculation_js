@@ -11,7 +11,8 @@ program
   .argument('<filepath2>')
   .option('-f, --format <type>', 'output format')
   .action((filepath1, filepath2) => {
-    compareObjects(filepath1, filepath2);
+    const result = compareObjects(filepath1, filepath2);
+    console.log(result);
   });
 
 program.parse();

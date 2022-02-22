@@ -2,12 +2,12 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import _ from 'lodash';
 
-const printDiff = (obj1, obj2) => {
+const getDiff = (obj1, obj2) => {
   const mergedObject = { ...obj1, ...obj2 };
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
   const allKeys = _.sortBy(Object.keys(mergedObject));
-  const result = ['{'];
+  const result = [];
 
   allKeys.forEach((key) => {
     if (keys1.includes(key) && keys2.includes(key)) {
@@ -24,12 +24,11 @@ const printDiff = (obj1, obj2) => {
     }
 
     if (!keys1.includes(key) && keys2.includes(key)) {
-      result.push(`  + ${key}: ${obj1[key]}`);
+      result.push(`  + ${key}: ${obj2[key]}`);
     }
   });
 
-  result.push('}');
-  console.log(result.join('\n'));
+  return ['{', ...result, '}'].join('\n');
 };
 
 const getUnifiedFilePath = (filepath) => {
@@ -54,7 +53,7 @@ const getFileContent = (filepath) => {
 const compareObjects = (src1, src2) => {
   const content1 = getFileContent(src1);
   const content2 = getFileContent(src2);
-  printDiff(content1, content2);
+  return getDiff(content1, content2);
 };
 
 export default compareObjects;
