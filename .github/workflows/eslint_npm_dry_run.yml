@@ -1,4 +1,4 @@
-name: Run eslint and npm publish dry-run 
+name: Run ESLint
 
 on:
   push:
@@ -19,6 +19,3 @@ jobs:
       
     - name: Run Eslint
       run: make lint
-      
-    - name: Run publish dry-run
-      run: npm publish --dry-run
