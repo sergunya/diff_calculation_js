@@ -43,6 +43,7 @@ test('check compare not empty and empty', () => {
 });
 
 test('check compare the same file', () => {
+  console.log(file2);
   const actualResult = compareObjects(file2, file2);
   expect(actualResult).toMatch('    host: hexlet.io');
   expect(actualResult).toMatch('    timeout: 20');
