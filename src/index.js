@@ -1,12 +1,11 @@
-import { readFileSync } from 'fs';
-import path from 'path';
 import _ from 'lodash';
+import proccedFile from './file.js';
+import parseFile from './parsers.js';
 
 const getDiff = (obj1, obj2) => {
-  const mergedObject = { ...obj1, ...obj2 };
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
-  const allKeys = _.sortBy(Object.keys(mergedObject));
+  const allKeys = _.sortBy([...new Set([...keys1, ...keys2])]);
   const result = [];
 
   allKeys.forEach((key) => {
@@ -31,29 +30,14 @@ const getDiff = (obj1, obj2) => {
   return ['{', ...result, '}'].join('\n');
 };
 
-const getUnifiedFilePath = (filepath) => {
-  if (filepath.startsWith('.')) {
-    const procDir = process.cwd();
+const compareFiles = (src1, src2) => {
+  const file1 = proccedFile(src1);
+  const file2 = proccedFile(src2);
 
-    return path.resolve(procDir, filepath);
-  }
+  const parsedFile1 = parseFile(file1.data, file1.extenstion);
+  const parsedFile2 = parseFile(file2.data, file2.extenstion);
 
-  return path.resolve(filepath);
+  return getDiff(parsedFile1, parsedFile2);
 };
 
-const getFileContent = (filepath) => {
-  const content = readFileSync(
-    getUnifiedFilePath(filepath),
-    { encoding: 'utf8', flag: 'r' },
-  );
-
-  return JSON.parse(content);
-};
-
-const compareObjects = (src1, src2) => {
-  const content1 = getFileContent(src1);
-  const content2 = getFileContent(src2);
-  return getDiff(content1, content2);
-};
-
-export default compareObjects;
+export default compareFiles;
