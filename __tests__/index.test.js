@@ -15,11 +15,9 @@ describe('test diff for JSON files', () => {
     file1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
     file2 = path.join(__dirname, '..', '__fixtures__', 'file2.json');
     emptyFile = path.join(__dirname, '..', '__fixtures__', 'empty.json');
-    console.log(1);
   });
 
   test('empty jsons', () => {
-    console.log(file1);
     expect(compareObjects(emptyFile, emptyFile)).toEqual('{\n}');
   });
 
@@ -59,8 +57,6 @@ describe('test diff for YAML files', () => {
   beforeAll(() => {
     file1 = path.join(__dirname, '..', '__fixtures__', 'file_1_yaml.yml');
     file2 = path.join(__dirname, '..', '__fixtures__', 'file_2_yaml.yml');
-
-    console.log(2);
   });
 
   test('check compare updated files', () => {
