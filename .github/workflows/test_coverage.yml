@@ -21,13 +21,9 @@ jobs:
       run: make test
 
     - name: Test & publish code coverage
-      #   # Publish code coverage on Code Climate
-      #   # https://github.com/paambaati/codeclimate-action
-    - uses: paambaati/codeclimate-action@v3
-      #   # Add Code Climate secret key
+      uses: paambaati/codeclimate-action@v3
       env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_COVERAGE_SECRET }}
       with:
           coverageCommand: make test-coverage
           debug: true
-
