@@ -11,6 +11,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/392f4880f1e8a26e3ae3/test_coverage)](https://codeclimate.com/github/sergunya/frontend-project-lvl2/test_coverage)
 
 ### Examples
-#### 1. Compare flat jsons
+#### 1. Compare flat JSON files
 [![asciicast](https://asciinema.org/a/470707.svg)](https://asciinema.org/a/470707)
+
+#### 2. Compare flat YAML files
+[![asciicast](https://asciinema.org/a/471203.svg)](https://asciinema.org/a/471203)
 ----
