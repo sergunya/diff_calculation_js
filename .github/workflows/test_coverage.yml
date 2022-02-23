@@ -1,0 +1,27 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: make test-coverage
+
+    - uses: paambaati/codeclimate-action@v2.2.4
+      env:
+        CC_TEST_REPORTER_ID: ed6def3581b7b495b7a1942fe0abae3b34081fa9d8a029043a1977df6be3d50c
+      with:
+        coverageCommand: yarn coverage
