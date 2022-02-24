@@ -12,9 +12,9 @@ let emptyFile;
 describe('test diff for JSON files', () => {
 
   beforeAll(() => {
-    file1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
-    file2 = path.join(__dirname, '..', '__fixtures__', 'file2.json');
-    emptyFile = path.join(__dirname, '..', '__fixtures__', 'empty.json');
+    file1 = path.join(__dirname, '..', '__fixtures__', 'flat_json_1.json');
+    file2 = path.join(__dirname, '..', '__fixtures__', 'flat_json_2.json');
+    emptyFile = path.join(__dirname, '..', '__fixtures__', 'empty_json.json');
   });
 
   test('empty jsons', () => {
@@ -55,8 +55,8 @@ describe('test diff for JSON files', () => {
 describe('test diff for YAML files', () => {
 
   beforeAll(() => {
-    file1 = path.join(__dirname, '..', '__fixtures__', 'file_1_yaml.yml');
-    file2 = path.join(__dirname, '..', '__fixtures__', 'file_2_yaml.yml');
+    file1 = path.join(__dirname, '..', '__fixtures__', 'flat_yaml_1.yml');
+    file2 = path.join(__dirname, '..', '__fixtures__', 'flat_yaml_2.yml');
   });
 
   test('check compare updated files', () => {

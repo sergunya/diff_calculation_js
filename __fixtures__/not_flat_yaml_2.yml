@@ -1,0 +1,15 @@
+pi: 3.14159
+xmas: true
+french-hens: 3
+calling-birds:
+  - huey
+  - louie
+  - fred
+xmas-fifth-day:
+  calling-birds: five
+  french-hens: 3
+  golden-rings: 5
+  partridges:
+    count: 2
+  turtle-doves: two
+  location: "a pear tree"
