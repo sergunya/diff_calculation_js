@@ -1,9 +1,6 @@
 pi: 3.14159
 french-hens: 3
-calling-birds:
-  - huey
-  - louie
-  - fred
+calling-birds: fred
 xmas-fifth-day:
   calling-birds: five
   french-hens: 3
