@@ -11,7 +11,7 @@ program
   .argument('<filepath1>')
   .argument('<filepath2>')
   .option('-f, --format <type>', 'output format', 'stylish')
-  .action((filepath1, filepath2, options) => {
+  .action((filepath1, filepath2) => {
     const result = compareFiles(filepath1, filepath2);
     console.log(stylish(result));
   });

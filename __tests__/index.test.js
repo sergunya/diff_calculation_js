@@ -78,7 +78,7 @@ describe('test diff for not flat JSON files', () => {
   });
 
   test('check compare updated files', () => {
-    const actualResult = compareObjects(file1, file2);
+    const actualResult = stylish(compareObjects(file1, file2));
     expect(actualResult).toMatch('- baz: bas');
     expect(actualResult).toMatch('+ baz: bars');
     expect(actualResult).toMatch('- group2');
