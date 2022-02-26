@@ -1,61 +1,70 @@
 import _ from 'lodash';
 import isObject from './is_object.js';
-import { makeDiffNode } from './diff_node.js';
 
-const toString = (key, node, indent) => {
-  let result;
+const STATES = {
+  created: '+',
+  deleted: '-',
+  updated: '±',
+  remained: ' ',
+};
 
-  if (node.type === 'updated') {
-    result = [`${indent}- ${key}: ${node.oldValue}`, `${indent}+ ${key}: ${node.value}`];
+const isDiffNode = (node) => {
+  if (Object.hasOwn(node, 'state') && Object.hasOwn(node, 'value')) {
+    return true;
   }
 
-  if (node.type === 'deleted') {
-    result = [`${indent}- ${key}: ${node.value}`];
-  }
-
-  if (node.type === 'created') {
-    result = [`${indent}+ ${key}: ${node.value}`];
-  }
-
-  if (node.type === 'remained') {
-    result = [`${indent}  ${key}: ${node.value}`];
-  }
-
-  return result;
+  return false;
 };
 
 const stylish = (diff) => {
-    
-// const styleNode = (node, level) => {
-  //     const keys = _.sortBy(Object.keys(node));
-  //     const indent = '  '.repeat(level);
+  const styleNode = (node, level) => {
+    const keys = _.sortBy(Object.keys(node));
+    const indent = '  '.repeat(level);
 
-  //     const result = keys.map((key) => {
+    const result = keys.map((key) => {
+      if (!isObject(node[key])) {
+        return `${indent}${key}: ${node[key]}`;
+      }
 
-  //         if (!isObject(node[key])) {
-  //             return `${indent}${key}: ${node[key]}`;
-  //         }
+      if (isDiffNode(node[key])) {
+        const state = STATES[node[key].state];
+        const { value } = node[key];
 
-  //         if (Object.hasOwn(node[key], 'value') && !isObject(node[key].value)) {
-  //             return toString(key, node[key], indent);
-  //         }
+        if (state === '±') {
+          const { oldValue } = node[key];
+          const formatNode = [];
 
-  //         if (Object.hasOwn(node[key], 'value') && !isObject(node[key].value)) {
-  //             return toString(key, node[key], indent);
-  //         }
+          if (isObject(oldValue)) {
+            formatNode.push([`${indent}${STATES.deleted} ${key}: {`, ...styleNode(oldValue, level + 1), `${indent}}`]);
+          } else {
+            formatNode.push(`${indent}${STATES.deleted} ${key}: ${oldValue}`);
+          }
 
-  //         return [`${indent}${key}: {`, ...styleNode(node[key], level + 1), `${indent}}`];
+          if (isObject(value)) {
+            formatNode.push([`${indent}${state} ${key}: {`, ...styleNode(value, level + 1), `${indent}}`]);
+          } else {
+            formatNode.push(`${indent}${STATES.created} ${key}: ${value}`);
+          }
 
-  //     });
+          return formatNode.flat();
+        }
 
-  //     return result.flat();
-  // };
+        if (isObject(value)) {
+          return [`${indent}${state} ${key}: {`, ...styleNode(value, level + 1), `${indent}}`];
+        }
 
-  // const diffString = ['{', ...styleNode(diff, 1), '}'];
+        return `${indent}${state} ${key}: ${node[key].value}`;
+      }
 
-  // return diffString.join('\n');
+      return [`${indent}${key}: {`, ...styleNode(node[key], level + 1), `${indent}}`];
+    });
 
-  '';
+    return result.flat();
+  };
+
+  const diffString = ['{', ...styleNode(diff, 1), '}'];
+
+  return diffString.join('\n');
 };
 
 export default stylish;
