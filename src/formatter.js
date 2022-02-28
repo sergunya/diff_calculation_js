@@ -16,9 +16,9 @@ const isDiffNode = (node) => {
   return false;
 };
 
-const getIndent = (level, state = ' ') => {
+const getIndent = (level) => {
   const baseIndent = '    ';
-  const indentLength = (baseIndent.length * level) - state.length;
+  const indentLength = (baseIndent.length * level) - 1;
 
   return ' '.repeat(indentLength);
 };
