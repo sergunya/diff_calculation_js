@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import isObject from './is_object.js';
+import isObject from '../is_object.js';
 
 const STATES = {
   created: '+',

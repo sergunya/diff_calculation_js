@@ -2,8 +2,7 @@ import proccedFile from './file.js';
 import parseFile from './parsers.js';
 import isObject from './is_object.js';
 
-// Переименовать
-const getChangesOfEntry = (key, obj1, obj2) => {
+const getStateOfNode = (key, obj1, obj2) => {
   const existsInObj1 = Object.hasOwn(obj1, key);
   const existsInObj2 = Object.hasOwn(obj2, key);
   let result = { value: obj2[key], state: 'remained' };
@@ -35,7 +34,7 @@ const getDiff = (obj1, obj2) => {
     if (isObject(obj2[key]) && isObject(obj1[key])) {
       diff[key] = getDiff(obj1[key], obj2[key]);
     } else {
-      diff[key] = getChangesOfEntry(key, obj1, obj2);
+      diff[key] = getStateOfNode(key, obj1, obj2);
     }
   });
 

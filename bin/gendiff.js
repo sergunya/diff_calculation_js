@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
 import compareFiles from '../src/index.js';
-import stylish from '../src/formatter.js';
+import stylish from '../src/formatters/stylish.js';
 
 const program = new Command();
 
