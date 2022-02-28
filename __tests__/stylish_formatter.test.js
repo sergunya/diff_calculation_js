@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-import compareObjects from '../src/index.js';
+import compareObjects from '../src/diff.js';
 import stylish from '../src/formatters/stylish.js';
 
 const __filename = fileURLToPath(import.meta.url);
