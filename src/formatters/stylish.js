@@ -2,8 +2,8 @@ import _ from 'lodash';
 import isObject from '../is_object.js';
 
 const STATES = {
-  created: '+',
-  deleted: '-',
+  added: '+',
+  removed: '-',
   updated: '±',
   remained: ' ',
 };
@@ -40,18 +40,18 @@ const stylish = (diff) => {
         if (state === '±') {
           const { oldValue } = node[key];
           const formatNode = [];
-          indent = getIndent(level, STATES.deleted);
+          indent = getIndent(level, STATES.removed);
 
           if (isObject(oldValue)) {
-            formatNode.push([`${indent}${STATES.deleted} ${key}: {`, ...styleNode(oldValue, level + 1), `  ${indent}}`]);
+            formatNode.push([`${indent}${STATES.removed} ${key}: {`, ...styleNode(oldValue, level + 1), `  ${indent}}`]);
           } else {
-            formatNode.push(`${indent}${STATES.deleted} ${key}: ${oldValue}`);
+            formatNode.push(`${indent}${STATES.removed} ${key}: ${oldValue}`);
           }
 
           if (isObject(value)) {
-            formatNode.push([`${indent}${state.created} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`]);
+            formatNode.push([`${indent}${state.added} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`]);
           } else {
-            formatNode.push(`${indent}${STATES.created} ${key}: ${value}`);
+            formatNode.push(`${indent}${STATES.added} ${key}: ${value}`);
           }
 
           return formatNode.flat();

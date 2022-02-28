@@ -20,8 +20,8 @@ describe('test genereted diff object YAML files', () => {
       const diff = compareObjects(file1, file2);
 
       expect(diff).toHaveProperty('calling-birds.state', 'updated');
-      expect(diff).toHaveProperty('xmas.state', 'deleted');
-      expect(diff).toHaveProperty('xmas-fifth-day.location.state', 'created');
+      expect(diff).toHaveProperty('xmas.state', 'removed');
+      expect(diff).toHaveProperty('xmas-fifth-day.location.state', 'added');
     });
   
 });

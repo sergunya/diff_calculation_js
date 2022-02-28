@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
-import compareFiles from '../src/diff.js';
+import genDiff from '../src/diff.js';
 import stylish from '../src/formatters/stylish.js';
+import plain from '../src/formatters/plain.js';
 
 const program = new Command();
 
@@ -11,9 +12,9 @@ program
   .argument('<filepath1>')
   .argument('<filepath2>')
   .option('-f, --format <type>', 'output format', 'stylish')
-  .action((filepath1, filepath2) => {
-    const result = compareFiles(filepath1, filepath2);
-    console.log(stylish(result));
+  .action((filepath1, filepath2, options) => {
+    const result = genDiff(filepath1, filepath2, options.format);
+    console.log(result);
   });
 
 program.parse();
