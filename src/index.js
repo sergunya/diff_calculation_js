@@ -1,25 +1,22 @@
-import proccedFile from './file.js';
-import parseFile from './parsers.js';
 import isObject from './is_object.js';
 
-// Переименовать
-const getChangesOfEntry = (key, obj1, obj2) => {
+const getStateNode = (key, obj1, obj2) => {
   const existsInObj1 = Object.hasOwn(obj1, key);
   const existsInObj2 = Object.hasOwn(obj2, key);
-  let result = { value: obj2[key], state: 'remained' };
+  let result = 'remained';
 
   if (existsInObj1 && existsInObj2) {
     if (obj1[key] !== obj2[key]) {
-      result = { ...result, state: 'updated', oldValue: obj1[key] };
+      result = 'updated';
     }
   }
 
   if (existsInObj1 && !existsInObj2) {
-    result = { ...result, state: 'deleted', value: obj1[key] };
+    result = 'deleted';
   }
 
   if (!existsInObj1 && existsInObj2) {
-    result = { ...result, state: 'created', value: obj2[key] };
+    result = 'created';
   }
 
   return result;
@@ -35,21 +32,14 @@ const getDiff = (obj1, obj2) => {
     if (isObject(obj2[key]) && isObject(obj1[key])) {
       diff[key] = getDiff(obj1[key], obj2[key]);
     } else {
-      diff[key] = getChangesOfEntry(key, obj1, obj2);
+      const state = getStateNode(key, obj1, obj2);
+      if (state !== 'remained') {
+        diff[key] = state;
+      }
     }
   });
 
   return diff;
 };
 
-const compareFiles = (src1, src2) => {
-  const file1 = proccedFile(src1);
-  const file2 = proccedFile(src2);
-
-  const parsedFile1 = parseFile(file1.data, file1.extenstion);
-  const parsedFile2 = parseFile(file2.data, file2.extenstion);
-
-  return getDiff(parsedFile1, parsedFile2);
-};
-
-export default compareFiles;
+export default getDiff;

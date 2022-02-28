@@ -1,6 +1,7 @@
 import yaml from 'js-yaml';
+import proccedFile from './file.js';
 
-const parseFile = (data, extension) => {
+const parse = (data, extension) => {
   let result;
 
   if (extension === '.json') {
@@ -12,6 +13,13 @@ const parseFile = (data, extension) => {
   }
 
   return result;
+};
+
+const parseFile = (filepath) => {
+  const file = proccedFile(filepath);
+  const parsedFile = parse(file.data, file.extenstion);
+
+  return parsedFile;
 };
 
 export default parseFile;
