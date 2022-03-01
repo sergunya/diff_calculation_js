@@ -19,10 +19,10 @@
 [![asciicast](https://asciinema.org/a/471203.svg)](https://asciinema.org/a/471203)
 ----
 
-#### 3. Compare not flat JSON and YAML
+#### 3. Stylish output of diff of not flat JSON / YAML files
 [![asciicast](https://asciinema.org/a/472620.svg)](https://asciinema.org/a/472620)
 ----
 
-#### 4. Compare not
+#### 4. Plain output of diff of not flat JSON / YAML files
 [![asciicast](https://asciinema.org/a/472991.svg)](https://asciinema.org/a/472991)
 ----
