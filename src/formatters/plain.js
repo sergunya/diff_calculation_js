@@ -3,7 +3,15 @@ import isObject from '../is_object.js';
 
 const valueToString = (value) => (isObject(value) ? '[complex_value]' : value);
 
-const plain = (diff) => {
+const getPath = (parentPath, key) => {
+  if (parentPath.length === 0) {
+    return key;
+  }
+
+  return `${parentPath.join('.')}.${key}`;
+};
+
+const formatToPlain = (diff) => {
   const styleNode = (node, parentPath) => {
     const keys = _.sortBy(Object.keys(node));
 
@@ -11,7 +19,7 @@ const plain = (diff) => {
       .filter((key) => isObject(node[key]))
       .map((key) => {
         if (Object.hasOwn(node[key], 'state')) {
-          const currentDiff = [`Property '${parentPath.join('.')}.${key}' was ${node[key].state}`];
+          const currentDiff = [`Property '${getPath(parentPath, key)}' was ${node[key].state}`];
           const value = valueToString(node[key].value);
           const { state } = node[key];
 
@@ -40,4 +48,4 @@ const plain = (diff) => {
   return diffString.join('');
 };
 
-export default plain;
+export default formatToPlain;

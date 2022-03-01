@@ -5,7 +5,6 @@ const STATES = {
   added: '+',
   removed: '-',
   updated: '±',
-  remained: ' ',
 };
 
 const isDiffNode = (node) => {
@@ -23,7 +22,7 @@ const getIndent = (level) => {
   return ' '.repeat(indentLength);
 };
 
-const stylish = (diff) => {
+const formatToStylish = (diff) => {
   const styleNode = (node, level) => {
     const keys = _.sortBy(Object.keys(node));
     let indent = getIndent(level);
@@ -65,7 +64,7 @@ const stylish = (diff) => {
         return `${indent}${state} ${key}: ${node[key].value}`;
       }
 
-      return [`${indent}${STATES.remained} ${key}: {`, ...styleNode(node[key], level + 1), `  ${indent}}`];
+      return [`${indent}  ${key}: {`, ...styleNode(node[key], level + 1), `  ${indent}}`];
     });
 
     return result.flat();
@@ -76,4 +75,4 @@ const stylish = (diff) => {
   return diffString.join('\n');
 };
 
-export default stylish;
+export default formatToStylish;
