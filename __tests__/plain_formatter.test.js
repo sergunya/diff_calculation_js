@@ -31,7 +31,7 @@ describe('test plain formatter for diff of not flat YAML files', () => {
   
     beforeAll(() => {
       file1 = path.join(__dirname, '..', '__fixtures__', 'not_flat_yaml_1.yml');
-      file2 = path.join(__dirname, '..', '__fixtures__', 'not_flat_yaml_2.yml');
+      file2 = path.join(__dirname, '..', '__fixtures__', 'not_flat_yaml_2.yaml');
     });
   
     test('check compare updated files', () => {

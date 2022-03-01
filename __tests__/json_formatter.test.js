@@ -9,7 +9,7 @@ let file1;
 let file2;
 
 
-describe('test stylish formatter for diff of not flat JSON files', () => {
+describe('test json formatter for diff of not flat JSON files', () => {
 
     beforeAll(() => {
       file1 = path.join(__dirname, '..', '__fixtures__', 'not_flat_json_1.json');
@@ -17,17 +17,16 @@ describe('test stylish formatter for diff of not flat JSON files', () => {
     });
   
     test('check compare updated files', () => {
-      const diff = genDiff(file1, file2, 'stylish');
+      const diff = genDiff(file1, file2, 'json');
 
-      expect(diff).toMatch('       - setting3: true');
-      expect(diff).toMatch('       + setting3: null');
-      expect(diff).toMatch('               + wow: so much');
-      expect(diff).toMatch('   + group3: {');
+      expect(diff).toMatch('"setting2":{"state":"removed","value":200}');
+      expect(diff).toMatch('"group2":{"state":"removed","value":{"abc":12345,"deep":{"id":45}}}');
+      expect(diff).toMatch('"group3":{"state":"added","value":{"deep":{"id":{"number":45}},"fee":100500}');
     });
   
 });
   
-describe('test stylish formatter for diff of not flat YAML files', () => {
+describe('test json formatter for diff of not flat YAML files', () => {
   
     beforeAll(() => {
       file1 = path.join(__dirname, '..', '__fixtures__', 'not_flat_yaml_1.yml');
@@ -35,12 +34,11 @@ describe('test stylish formatter for diff of not flat YAML files', () => {
     });
   
     test('check compare updated files', () => {
-      const diff = genDiff(file1, file2, 'stylish');
+      const diff = genDiff(file1, file2, 'json');
 
-      expect(diff).toMatch('   + calling-birds: fred');
-      expect(diff).toMatch('   - calling-birds: huey');
-      expect(diff).toMatch('     xmas-fifth-day: {');
-      expect(diff).toMatch('           - location: a pear tree');
+      expect(diff).toMatch('"xmas":{"state":"removed","value":true}');
+      expect(diff).toMatch('"calling-birds":{"value":"five","state":"updated","oldValue":"four"}');
+      
     });
   
 });
