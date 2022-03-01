@@ -13,10 +13,16 @@
 ### Examples
 #### 1. Compare flat JSON files
 [![asciicast](https://asciinema.org/a/470707.svg)](https://asciinema.org/a/470707)
+----
 
 #### 2. Compare flat YAML files
 [![asciicast](https://asciinema.org/a/471203.svg)](https://asciinema.org/a/471203)
+----
 
 #### 3. Compare not flat JSON and YAML
 [![asciicast](https://asciinema.org/a/472620.svg)](https://asciinema.org/a/472620)
+----
+
+#### 4. Compare not
+[![asciicast](https://asciinema.org/a/472991.svg)](https://asciinema.org/a/472991)
 ----
