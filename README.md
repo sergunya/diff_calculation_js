@@ -26,3 +26,7 @@
 #### 4. Plain output of diff of not flat JSON / YAML files
 [![asciicast](https://asciinema.org/a/472991.svg)](https://asciinema.org/a/472991)
 ----
+
+#### 5. JSON output of diff of not flat JSON / YAML files
+[![asciicast](https://asciinema.org/a/473024.svg)](https://asciinema.org/a/473024)
+----
