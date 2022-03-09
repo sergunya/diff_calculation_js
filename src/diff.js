@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import proccedFile from './file.js';
 import parseFile from './parsers.js';
 import getFormatter from './formatters/index.js';
 
@@ -43,11 +42,8 @@ const makeDiff = (obj1, obj2) => {
 };
 
 const genDiff = (src1, src2, formatName) => {
-  const file1 = proccedFile(src1);
-  const file2 = proccedFile(src2);
-
-  const parsedFile1 = parseFile(file1.data, file1.extenstion);
-  const parsedFile2 = parseFile(file2.data, file2.extenstion);
+  const parsedFile1 = parseFile(src1);
+  const parsedFile2 = parseFile(src2);
 
   const diff = makeDiff(parsedFile1, parsedFile2);
   const formatter = getFormatter(formatName);
