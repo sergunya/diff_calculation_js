@@ -1,6 +1,6 @@
+import _ from 'lodash';
 import proccedFile from './file.js';
 import parseFile from './parsers.js';
-import isObject from './is_object.js';
 import getFormatter from './formatters/index.js';
 
 const constructDiffNode = (key, obj1, obj2) => {
@@ -32,7 +32,7 @@ const makeDiff = (obj1, obj2) => {
   const diff = {};
 
   allKeys.forEach((key) => {
-    if (isObject(obj2[key]) && isObject(obj1[key])) {
+    if (_.isObject(obj2[key]) && _.isObject(obj1[key])) {
       diff[key] = makeDiff(obj1[key], obj2[key]);
     } else {
       diff[key] = constructDiffNode(key, obj1, obj2);

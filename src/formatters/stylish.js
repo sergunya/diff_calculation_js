@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import isObject from '../is_object.js';
 
 const STATES = {
   added: '+',
@@ -28,7 +27,7 @@ const formatToStylish = (diff) => {
     let indent = getIndent(level);
 
     const result = keys.map((key) => {
-      if (!isObject(node[key])) {
+      if (!_.isObject(node[key])) {
         return `${indent} ${key}: ${node[key]}`;
       }
 
@@ -41,13 +40,13 @@ const formatToStylish = (diff) => {
           const formatNode = [];
           indent = getIndent(level, STATES.removed);
 
-          if (isObject(oldValue)) {
+          if (_.isObject(oldValue)) {
             formatNode.push([`${indent}${STATES.removed} ${key}: {`, ...styleNode(oldValue, level + 1), `  ${indent}}`]);
           } else {
             formatNode.push(`${indent}${STATES.removed} ${key}: ${oldValue}`);
           }
 
-          if (isObject(value)) {
+          if (_.isObject(value)) {
             formatNode.push([`${indent}${state.added} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`]);
           } else {
             formatNode.push(`${indent}${STATES.added} ${key}: ${value}`);
@@ -56,7 +55,7 @@ const formatToStylish = (diff) => {
           return formatNode.flat();
         }
 
-        if (isObject(value)) {
+        if (_.isObject(value)) {
           indent = getIndent(level, state);
           return [`${indent}${state} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`];
         }

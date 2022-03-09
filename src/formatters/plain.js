@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import isObject from '../is_object.js';
 
-const valueToString = (value) => (isObject(value) ? '[complex_value]' : value);
+const valueToString = (value) => (_.isObject(value) ? '[complex_value]' : value);
 
 const getPath = (parentPath, key) => {
   if (parentPath.length === 0) {
@@ -16,7 +15,7 @@ const formatToPlain = (diff) => {
     const keys = _.sortBy(Object.keys(node));
 
     const result = keys
-      .filter((key) => isObject(node[key]))
+      .filter((key) => _.isObject(node[key]))
       .map((key) => {
         if (Object.hasOwn(node[key], 'state')) {
           const currentDiff = [`Property '${getPath(parentPath, key)}' was ${node[key].state}`];
