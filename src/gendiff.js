@@ -3,8 +3,8 @@ import parseFile from './parsers.js';
 import getFormatter from './formatters/index.js';
 
 const constructDiffNode = (key, obj1, obj2) => {
-  const existsInObj1 = Object.hasOwn(obj1, key);
-  const existsInObj2 = Object.hasOwn(obj2, key);
+  const existsInObj1 = _.has(obj1, key);
+  const existsInObj2 = _.has(obj2, key);
   let result = obj2[key];
 
   if (existsInObj1 && existsInObj2) {
