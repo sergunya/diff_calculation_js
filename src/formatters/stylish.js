@@ -15,8 +15,8 @@ const isDiffNode = (node) => {
 };
 
 const getIndent = (level) => {
-  const baseIndent = '   ';
-  const indentLength = (baseIndent.length * level);
+  const baseIndent = '  ';
+  const indentLength = (baseIndent.length * level) + 1;
 
   return ' '.repeat(indentLength);
 };
@@ -47,7 +47,7 @@ const formatToStylish = (diff) => {
           }
 
           if (_.isObject(value)) {
-            formatNode.push([`${indent}${state.added} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`]);
+            formatNode.push([`${indent}${STATES.added} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`]);
           } else {
             formatNode.push(`${indent}${STATES.added} ${key}: ${value}`);
           }
