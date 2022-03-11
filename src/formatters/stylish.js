@@ -60,7 +60,7 @@ const formatToStylish = (diff) => {
           return [`${indent}${state} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`];
         }
 
-        return `${indent}${state} ${key}: ${node[key].value}`;
+        return `${indent} ${state} ${key}: ${node[key].value}`;
       }
 
       return [`${indent}  ${key}: {`, ...styleNode(node[key], level + 1), `  ${indent}}`];
