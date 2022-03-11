@@ -45,12 +45,12 @@ const formatToStylish = (diff) => {
           const remPref = `${indent}${STATES.removed} ${key}:`;
           const addPref = `${indent}${STATES.added} ${key}:`;
 
-          const result = {
+          const updateNodes = {
             del: _.isObject(oldValue) ? [`${remPref} {`, ...styleNode(oldValue, level + 1), `  ${indent}}`] : `${remPref} ${oldValue}`,
             add: _.isObject(value) ? [`${addPref} {`, ...styleNode(value, level + 1), `  ${indent}}`] : `${addPref} ${value}`,
-          }
+          };
 
-          return [result.del, result.add].flat();
+          return [updateNodes.del, updateNodes.add].flat();
         }
 
         if (_.isObject(value)) {
