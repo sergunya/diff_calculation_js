@@ -42,21 +42,15 @@ const formatToStylish = (diff) => {
 
         if (state === '±') {
           const { oldValue } = node[key];
-          const formatNode = [];
+          const remPref = `${indent}${STATES.removed} ${key}:`;
+          const addPref = `${indent}${STATES.added} ${key}:`;
 
-          if (_.isObject(oldValue)) {
-            formatNode.push([`${indent}${STATES.removed} ${key}: {`, ...styleNode(oldValue, level + 1), `  ${indent}}`]);
-          } else {
-            formatNode.push(`${indent}${STATES.removed} ${key}: ${oldValue}`);
+          const result = {
+            del: _.isObject(oldValue) ? [`${remPref} {`, ...styleNode(oldValue, level + 1), `  ${indent}}`] : `${remPref} ${oldValue}`,
+            add: _.isObject(value) ? [`${addPref} {`, ...styleNode(value, level + 1), `  ${indent}}`] : `${addPref} ${value}`,
           }
 
-          if (_.isObject(value)) {
-            formatNode.push([`${indent}${STATES.added} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`]);
-          } else {
-            formatNode.push(`${indent}${STATES.added} ${key}: ${value}`);
-          }
-
-          return formatNode.flat();
+          return [result.del, result.add].flat();
         }
 
         if (_.isObject(value)) {
