@@ -7,7 +7,7 @@ const STATES = {
 };
 
 const isDiffNode = (node) => {
-  if (Object.hasOwn(node, 'state') && Object.hasOwn(node, 'value')) {
+  if (_.has(node, 'state') && _.has(node, 'value')) {
     return true;
   }
 
