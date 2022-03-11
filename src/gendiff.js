@@ -5,23 +5,22 @@ import getFormatter from './formatters/index.js';
 const constructDiffNode = (key, obj1, obj2) => {
   const existsInObj1 = _.has(obj1, key);
   const existsInObj2 = _.has(obj2, key);
-  let result = obj2[key];
 
   if (existsInObj1 && existsInObj2) {
     if (obj1[key] !== obj2[key]) {
-      result = { value: obj2[key], state: 'updated', oldValue: obj1[key] };
+      return { value: obj2[key], state: 'updated', oldValue: obj1[key] };
     }
   }
 
   if (existsInObj1 && !existsInObj2) {
-    result = { state: 'removed', value: obj1[key] };
+    return { state: 'removed', value: obj1[key] };
   }
 
   if (!existsInObj1 && existsInObj2) {
-    result = { state: 'added', value: obj2[key] };
+    return { state: 'added', value: obj2[key] };
   }
 
-  return result;
+  return obj2[key];
 };
 
 const makeDiff = (obj1, obj2) => {
