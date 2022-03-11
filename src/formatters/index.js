@@ -11,11 +11,7 @@ const getFormatter = (formatterName) => {
     return formatToStylish;
   }
 
-  if (formatterName === 'json') {
-    return formatToJSON;
-  }
-
-  return null;
+  return formatToJSON;
 };
 
 export default getFormatter;
