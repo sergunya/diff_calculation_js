@@ -15,7 +15,7 @@ const isDiffNode = (node) => {
 };
 
 const getIndent = (level) => {
-  const baseIndent = '    ';
+  const baseIndent = '   ';
   const indentLength = (baseIndent.length * level) - 1;
 
   return ' '.repeat(indentLength);
@@ -28,7 +28,7 @@ const formatToStylish = (diff) => {
 
     const result = keys.map((key) => {
       if (!_.isObject(node[key])) {
-        return `${indent} ${key}: ${node[key]}`;
+        return `${indent}  ${key}: ${node[key]}`;
       }
 
       if (isDiffNode(node[key])) {
