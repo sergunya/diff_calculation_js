@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const valueToString = (value) => (_.isObject(value) ? '[complex_value]' : value);
+const valueToString = (value) => (_.isObject(value) ? '[complex value]' : value);
 
 const getPath = (parentPath, key) => {
   if (parentPath.length === 0) {
