@@ -7,11 +7,11 @@ const getFormatter = (formatterName) => {
     return formatToPlain;
   }
 
-  if (formatterName === 'stylish') {
-    return formatToStylish;
+  if (formatterName === 'json') {
+    return formatToJSON;
   }
 
-  return formatToJSON;
+  return formatToStylish;
 };
 
 export default getFormatter;
