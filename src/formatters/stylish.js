@@ -17,7 +17,7 @@ const isDiffNode = (node) => {
 const getIndent = (level, sign = false) => {
   const baseIndent = 4;
   const signSpaces = 2;
-  const indent = (baseIndent * level) + 1;
+  const indent = (baseIndent * level);
 
   if (sign === false) {
     return ' '.repeat(indent);
