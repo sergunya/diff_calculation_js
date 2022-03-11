@@ -28,22 +28,20 @@ const formatToPlain = (diff) => {
       .filter((key) => _.isObject(node[key]))
       .map((key) => {
         if (_.has(node[key], 'state')) {
-          const currentDiff = [`Property '${getPath(parentPath, key)}' was ${node[key].state}`];
+          const baseMessage = `Property '${getPath(parentPath, key)}' was ${node[key].state}`;
           const value = valueToString(node[key].value);
           const { state } = node[key];
 
           if (state === 'updated') {
             const oldValue = valueToString(node[key].oldValue);
-            currentDiff.push(`. From ${oldValue} to ${value}`);
+            return `${baseMessage}. From ${oldValue} to ${value}\n`;
           }
 
           if (state === 'added') {
-            currentDiff.push(` with value: ${value}`);
+            return `${baseMessage} with value: ${value}\n`;
           }
 
-          currentDiff.push('\n');
-
-          return currentDiff.join('');
+          return `${baseMessage}\n`;
         }
 
         return styleNode(node[key], [...parentPath, key]);
