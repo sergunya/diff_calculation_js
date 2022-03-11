@@ -14,31 +14,35 @@ const isDiffNode = (node) => {
   return false;
 };
 
-const getIndent = (level) => {
-  const baseIndent = '  ';
-  const indentLength = (baseIndent.length * level) + level;
+const getIndent = (level, sign = false) => {
+  const baseIndent = 4;
+  const signSpaces = 2;
+  const indent = (baseIndent * level) + 1;
 
-  return ' '.repeat(indentLength);
+  if (sign === false) {
+    return ' '.repeat(indent);
+  }
+
+  return ' '.repeat(indent - signSpaces);
 };
 
 const formatToStylish = (diff) => {
   const styleNode = (node, level) => {
     const keys = _.sortBy(Object.keys(node));
-    let indent = getIndent(level);
 
     const result = keys.map((key) => {
       if (!_.isObject(node[key])) {
-        return `${indent}  ${key}: ${node[key]}`;
+        return `${getIndent(level)}${key}: ${node[key]}`;
       }
 
       if (isDiffNode(node[key])) {
         const state = STATES[node[key].state];
         const { value } = node[key];
+        const indent = getIndent(level, true);
 
         if (state === '±') {
           const { oldValue } = node[key];
           const formatNode = [];
-          indent = getIndent(level);
 
           if (_.isObject(oldValue)) {
             formatNode.push([`${indent}${STATES.removed} ${key}: {`, ...styleNode(oldValue, level + 1), `  ${indent}}`]);
@@ -56,14 +60,13 @@ const formatToStylish = (diff) => {
         }
 
         if (_.isObject(value)) {
-          indent = getIndent(level, state);
           return [`${indent}${state} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`];
         }
 
         return `${indent}${state} ${key}: ${node[key].value}`;
       }
 
-      return [`${indent} ${key}: {`, ...styleNode(node[key], level + 1), ` ${indent}}`];
+      return [`${getIndent(level)}${key}: {`, ...styleNode(node[key], level + 1), `${getIndent(level)}}`];
     });
 
     return result.flat();
