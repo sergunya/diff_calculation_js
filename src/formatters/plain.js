@@ -54,7 +54,7 @@ const formatToPlain = (diff) => {
 
   const diffString = [...styleNode(diff, [])];
 
-  return diffString.join('');
+  return diffString.join('').trimEnd();
 };
 
 export default formatToPlain;
