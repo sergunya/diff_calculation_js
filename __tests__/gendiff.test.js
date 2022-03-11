@@ -12,10 +12,10 @@ describe('test plain formatter for JSON and YAML files', () => {
     { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'common.follow\' was added with value: false' },
     { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'common.setting3\' was updated. From true to null' },
     { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'group2\' was removed' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'group3\' was added with value: [complex_value]' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'calling-birds\' was updated. From huey to fred' },
+    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'group3\' was added with value: [complex value]' },
+    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'calling-birds\' was updated. From \'huey\' to \'fred\'' },
     { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'xmas\' was removed' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'xmas-fifth-day.location\' was added with value: a pear tree' },
+    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'xmas-fifth-day.location\' was added with value: \'a pear tree\'' },
     { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'xmas-fifth-day.partridges.location\' was removed' },
   ])('.add($a, $b)', ({ a, b, expected }) => {
     const diff = genDiff(getPathToFile(a), getPathToFile(b), 'plain');
@@ -39,14 +39,14 @@ describe('test json formatter for JSON and YAML files', () => {
 
 describe('test stylish formatter for JSON and YAML files', () => {
   test.each([
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '       - setting3: true' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '       + setting3: null' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '               + wow: so much' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '   + group3: {' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '   + calling-birds: fred' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '   - calling-birds: huey' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '     xmas-fifth-day: {' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '           - location: a pear tree' },
+    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '      - setting3: true' },
+    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '      + setting3: null' },
+    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '              + wow: so much' },
+    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '  + group3: {' },
+    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '  + calling-birds: fred' },
+    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '  - calling-birds: huey' },
+    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '    xmas-fifth-day: {' },
+    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '          - location: a pear tree' },
 
   ])('.add($a, $b)', ({ a, b, expected }) => {
     const diff = genDiff(getPathToFile(a), getPathToFile(b), 'stylish');
