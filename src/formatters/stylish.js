@@ -15,7 +15,7 @@ const isDiffNode = (node) => {
 };
 
 const getIndent = (level) => {
-  const baseIndent = '   ';
+  const baseIndent = '  ';
   const indentLength = (baseIndent.length * level) - 1;
 
   return ' '.repeat(indentLength);
@@ -28,7 +28,7 @@ const formatToStylish = (diff) => {
 
     const result = keys.map((key) => {
       if (!_.isObject(node[key])) {
-        return `${indent}   ${key}: ${node[key]}`;
+        return `${indent}  ${key}: ${node[key]}`;
       }
 
       if (isDiffNode(node[key])) {
@@ -41,15 +41,15 @@ const formatToStylish = (diff) => {
           indent = getIndent(level);
 
           if (_.isObject(oldValue)) {
-            formatNode.push([`${indent} ${STATES.removed} ${key}: {`, ...styleNode(oldValue, level + 1), `  ${indent}}`]);
+            formatNode.push([`${indent}${STATES.removed} ${key}: {`, ...styleNode(oldValue, level + 1), `  ${indent}}`]);
           } else {
-            formatNode.push(`${indent} ${STATES.removed} ${key}: ${oldValue}`);
+            formatNode.push(`${indent}${STATES.removed} ${key}: ${oldValue}`);
           }
 
           if (_.isObject(value)) {
-            formatNode.push([`${indent} ${state.added} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`]);
+            formatNode.push([`${indent}${state.added} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`]);
           } else {
-            formatNode.push(`${indent} ${STATES.added} ${key}: ${value}`);
+            formatNode.push(`${indent}${STATES.added} ${key}: ${value}`);
           }
 
           return formatNode.flat();
@@ -57,13 +57,13 @@ const formatToStylish = (diff) => {
 
         if (_.isObject(value)) {
           indent = getIndent(level, state);
-          return [`${indent} ${state} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`];
+          return [`${indent}${state} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`];
         }
 
-        return `${indent} ${state} ${key}: ${node[key].value}`;
+        return `${indent}${state} ${key}: ${node[key].value}`;
       }
 
-      return [`${indent}  ${key}: {`, ...styleNode(node[key], level + 1), `  ${indent}}`];
+      return [`${indent} ${key}: {`, ...styleNode(node[key], level + 1), `  ${indent}}`];
     });
 
     return result.flat();
