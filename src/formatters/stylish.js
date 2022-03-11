@@ -28,7 +28,7 @@ const formatToStylish = (diff) => {
 
     const result = keys.map((key) => {
       if (!_.isObject(node[key])) {
-        return `${indent}  ${key}: ${node[key]}`;
+        return `${indent}   ${key}: ${node[key]}`;
       }
 
       if (isDiffNode(node[key])) {
@@ -57,7 +57,7 @@ const formatToStylish = (diff) => {
 
         if (_.isObject(value)) {
           indent = getIndent(level, state);
-          return [`${indent}${state} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`];
+          return [`${indent} ${state} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`];
         }
 
         return `${indent} ${state} ${key}: ${node[key].value}`;
