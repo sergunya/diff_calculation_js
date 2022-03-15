@@ -13,11 +13,16 @@ const getAbsoluteFilePath = (filepath) => {
 };
 
 const choosParser = (extension) => {
-  if (extension === '.yml' || extension === '.yaml') {
-    return yaml.load;
+  switch (extension) {
+    case '.yml':
+      return yaml.load;
+    case '.yaml':
+      return yaml.load;
+    case '.json':
+      return JSON.parse;
+    default:
+      throw new Error(`Parser for file extension ${extension} not found`)
   }
-
-  return JSON.parse;
 };
 
 const parseFile = (filepath) => {
