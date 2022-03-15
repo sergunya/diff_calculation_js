@@ -21,7 +21,7 @@ const choosParser = (extension) => {
     case '.json':
       return JSON.parse;
     default:
-      throw new Error(`Parser for file extension ${extension} not found`)
+      throw new Error(`Parser for file extension ${extension} not found`);
   }
 };
 
