@@ -37,7 +37,7 @@ const stringify = (obj, level) => {
 
 const formatToStylish = (diff) => {
   const styleNode = (node, level) => {
-    const res = node.map((item) => {
+    const res = _.sortBy(node, 'key').map((item) => {
       const indent = getIndent(level);
 
       if (_.has(item, 'children')) {
