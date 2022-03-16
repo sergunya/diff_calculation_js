@@ -25,11 +25,11 @@ describe('test plain formatter for JSON and YAML files', () => {
 
 describe('test json formatter for JSON and YAML files', () => {
   test.each([
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '"setting2":{"state":"removed","value":200}' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '"group2":{"state":"removed","value":{"abc":12345,"deep":{"id":45}}}' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '"group3":{"state":"added","value":{"deep":{"id":{"number":45}},"fee":100500}' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '"xmas":{"state":"removed","value":true}' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '"calling-birds":{"value":"five","state":"updated","oldValue":"four"}' },
+    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '{"key":"setting2","state":"removed","value":200}' },
+    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '{"key":"group2","state":"removed","value":{"abc":12345,"deep":{"id":45}}}' },
+    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '{"key":"group3","state":"added","value":{"deep":{"id":{"number":45}},"fee":100500}}' },
+    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '{"key":"xmas","state":"removed","value":true}' },
+    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '{"key":"calling-birds","value":"fred","state":"updated","oldValue":"huey"}' },
 
   ])('.add($a, $b)', ({ a, b, expected }) => {
     const diff = genDiff(getPathToFile(a), getPathToFile(b), 'json');

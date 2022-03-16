@@ -3,11 +3,10 @@ import _ from 'lodash';
 const STATES = {
   added: '+',
   removed: '-',
-  updated: '±',
 };
 
 const isDiffNode = (node) => {
-  if (_.has(node, 'state') && _.has(node, 'value')) {
+  if (_.has(node, 'state') && ['added', 'removed', 'updated'].includes(node.state)) {
     return true;
   }
 
@@ -26,42 +25,45 @@ const getIndent = (level, sign = false) => {
   return ' '.repeat(indent - signSpaces);
 };
 
+const stringify = (obj, level) => {
+  const indent = getIndent(level);
+  return Object.keys(obj).sort().map((key) => {
+    if (_.isObject(obj[key])) {
+      return [`${indent}${key}: {`, ...stringify(obj[key], level + 1), `${indent}`].flat();
+    }
+    return `${indent}${key}: ${obj[key]}`;
+  }).flat();
+};
+
 const formatToStylish = (diff) => {
   const styleNode = (node, level) => {
-    const keys = _.sortBy(Object.keys(node));
+    const res = node.map((item) => {
+      const indent = getIndent(level);
 
-    const result = keys.map((key) => {
-      if (!_.isObject(node[key])) {
-        return `${getIndent(level)}${key}: ${node[key]}`;
+      if (_.has(item, 'children')) {
+        return [`${indent}${item.key}: {`, ...styleNode(item.children, level + 1), `${indent}}`].join('\n');
       }
 
-      if (isDiffNode(node[key])) {
-        const state = STATES[node[key].state];
-        const { value } = node[key];
-        const indent = getIndent(level, true);
+      const value = _.isObject(item.value) ? ['{', ...stringify(item.value, level), `${indent}}`].join('\n') : item.value;
 
-        if (state === '±') {
-          const { oldValue } = node[key];
-          const remPref = `${indent}${STATES.removed} ${key}:`;
-          const addPref = `${indent}${STATES.added} ${key}:`;
+      if (isDiffNode(item)) {
+        const signIndent = getIndent(level, true);
 
-          const del = _.isObject(oldValue) ? [`${remPref} {`, ...styleNode(oldValue, level + 1), `  ${indent}}`] : `${remPref} ${oldValue}`;
-          const add = _.isObject(value) ? [`${addPref} {`, ...styleNode(value, level + 1), `  ${indent}}`] : `${addPref} ${value}`;
+        if (item.state === 'updated') {
+          const oldValue = _.isObject(item.oldValue) ? ['{', stringify(item.oldValue, level), `${indent}}`].join('\n') : item.oldValue;
+          const del = `${signIndent}${STATES.removed} ${item.key}: ${oldValue}`;
+          const add = `${signIndent}${STATES.added} ${item.key}: ${value}`;
 
-          return [del, add].flat();
+          return [del, add].join('\n');
         }
 
-        if (_.isObject(value)) {
-          return [`${indent}${state} ${key}: {`, ...styleNode(value, level + 1), `  ${indent}}`];
-        }
-
-        return `${indent}${state} ${key}: ${node[key].value}`;
+        return `${signIndent}${STATES[item.state]} ${item.key}: ${value}`;
       }
 
-      return [`${getIndent(level)}${key}: {`, ...styleNode(node[key], level + 1), `${getIndent(level)}}`];
+      return `${indent}${item.key}: ${value}`;
     });
 
-    return result.flat();
+    return res;
   };
 
   const diffString = ['{', ...styleNode(diff, 1), '}'];
