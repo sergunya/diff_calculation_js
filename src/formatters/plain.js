@@ -22,29 +22,26 @@ const getPath = (parentPath, key) => {
 
 const formatToPlain = (diff) => {
   const styleNode = (node, parentPath) => {
-    const keys = _.sortBy(Object.keys(node));
 
-    const result = keys
-      .filter((key) => _.isObject(node[key]))
-      .map((key) => {
-        if (_.has(node[key], 'state')) {
-          const baseMessage = `Property '${getPath(parentPath, key)}' was ${node[key].state}`;
-          const value = valueToString(node[key].value);
-          const { state } = node[key];
+    const result = _.sortBy(node, 'key')
+      .map((item) => {
+        if (_.has(item, 'state')) {
+          const baseMessage = `Property '${getPath(parentPath, item.key)}' was ${item.state}`;
+          const value = valueToString(item.value);
 
-          if (state === 'updated') {
-            const oldValue = valueToString(node[key].oldValue);
+          if (item.state === 'updated') {
+            const oldValue = valueToString(item.oldValue);
             return `${baseMessage}. From ${oldValue} to ${value}\n`;
           }
 
-          if (state === 'added') {
+          if (item.state === 'added') {
             return `${baseMessage} with value: ${value}\n`;
           }
 
           return `${baseMessage}\n`;
         }
 
-        return styleNode(node[key], [...parentPath, key]);
+        return styleNode(item.children, [...parentPath, item.key]);
       });
 
     return result.flat();
