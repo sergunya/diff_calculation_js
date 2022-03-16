@@ -27,8 +27,7 @@ const getIndent = (level, sign = false) => {
 
 const stringify = (obj, level) => {
   const indent = getIndent(level + 1);
-  return Object.keys(obj).sort().map((key) => {
-
+  return _.sortBy(Object.keys(obj)).map((key) => {
     if (_.isObject(obj[key])) {
       return [`${indent}${key}: {`, ...stringify(obj[key], level + 1), `${indent}}`].flat();
     }
