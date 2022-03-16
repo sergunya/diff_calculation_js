@@ -18,11 +18,7 @@ const getIndent = (level, sign = false) => {
   const signSpaces = 2;
   const indent = (baseIndent * level);
 
-  if (sign === false) {
-    return ' '.repeat(indent);
-  }
-
-  return ' '.repeat(indent - signSpaces);
+  return sign ? ' '.repeat(indent - signSpaces) : ' '.repeat(indent);
 };
 
 const stringify = (obj, level) => {
