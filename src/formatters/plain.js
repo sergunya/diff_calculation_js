@@ -22,7 +22,6 @@ const getPath = (parentPath, key) => {
 
 const formatToPlain = (diff) => {
   const styleNode = (node, parentPath) => {
-
     const result = _.sortBy(node, 'key')
       .map((item) => {
         if (_.has(item, 'state')) {
