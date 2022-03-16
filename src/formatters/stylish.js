@@ -26,11 +26,13 @@ const getIndent = (level, sign = false) => {
 };
 
 const stringify = (obj, level) => {
-  const indent = getIndent(level);
+  const indent = getIndent(level + 1);
   return Object.keys(obj).sort().map((key) => {
+
     if (_.isObject(obj[key])) {
-      return [`${indent}${key}: {`, ...stringify(obj[key], level + 1), `${indent}`].flat();
+      return [`${indent}${key}: {`, ...stringify(obj[key], level + 1), `${indent}}`].flat();
     }
+
     return `${indent}${key}: ${obj[key]}`;
   }).flat();
 };
