@@ -1,7 +1,7 @@
 import parseFile from './parsers.js';
 import getFormatter from './formatters/index.js';
 import makeDiff from './diff.js';
-import { getAbsoluteFilePath, getExtension, readFile } from '../index.js';
+import { getAbsoluteFilePath, getExtension, readFile } from './index.js';
 
 const genDiff = (src1, src2, formatName) => {
   const path1 = getAbsoluteFilePath(src1);
