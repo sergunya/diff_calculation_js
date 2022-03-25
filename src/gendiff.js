@@ -1,10 +1,10 @@
+import path from 'path';
+import { readFileSync } from 'fs';
 import parseFile from './parsers.js';
 import getFormatter from './formatters/index.js';
 import makeDiff from './diff.js';
-import path from 'path';
-import { readFileSync } from 'fs';
 
-const getAbsoluteFilePath = (filepath) => path.resolve(process.cwd(), filepath)
+const getAbsoluteFilePath = (filepath) => path.resolve(process.cwd(), filepath);
 
 const getExtension = (filepath) => path.extname(filepath).slice(1);
 
