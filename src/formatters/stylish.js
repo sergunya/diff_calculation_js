@@ -5,14 +5,6 @@ const STATES = {
   removed: '-',
 };
 
-const isDiffNode = (node) => {
-  if (_.has(node, 'state') && ['added', 'removed', 'updated'].includes(node.state)) {
-    return true;
-  }
-
-  return false;
-};
-
 const getIndent = (level, sign = false) => {
   const baseIndent = 4;
   const signSpaces = 2;
@@ -35,29 +27,32 @@ const stringify = (obj, level) => {
 const formatToStylish = (diff) => {
   const styleNode = (node, level) => {
     const res = _.sortBy(node, 'key').map((item) => {
+      
       const indent = getIndent(level);
+      const signIndent = getIndent(level, true);
 
-      if (_.has(item, 'children')) {
+      if (item.state === 'nested') {
         return [`${indent}${item.key}: {`, ...styleNode(item.children, level + 1), `${indent}}`].join('\n');
       }
 
       const value = _.isObject(item.value) ? ['{', ...stringify(item.value, level), `${indent}}`].join('\n') : item.value;
 
-      if (isDiffNode(item)) {
-        const signIndent = getIndent(level, true);
-
-        if (item.state === 'updated') {
-          const oldValue = _.isObject(item.oldValue) ? ['{', stringify(item.oldValue, level), `${indent}}`].join('\n') : item.oldValue;
-          const del = `${signIndent}${STATES.removed} ${item.key}: ${oldValue}`;
-          const add = `${signIndent}${STATES.added} ${item.key}: ${value}`;
-
-          return [del, add].join('\n');
-        }
-
+      if (item.state === 'added' || item.state === 'removed' ) {
         return `${signIndent}${STATES[item.state]} ${item.key}: ${value}`;
       }
 
-      return `${indent}${item.key}: ${value}`;
+      if (item.state === 'updated') {
+        const oldValue = _.isObject(item.oldValue) ? ['{', stringify(item.oldValue, level), `${indent}}`].join('\n') : item.oldValue;
+        const del = `${signIndent}${STATES.removed} ${item.key}: ${oldValue}`;
+        const add = `${signIndent}${STATES.added} ${item.key}: ${value}`;
+
+        return [del, add].join('\n');
+      }
+
+      if (item.state === 'remained') {
+        return `${indent}${item.key}: ${value}`;
+      }
+
     });
 
     return res;
