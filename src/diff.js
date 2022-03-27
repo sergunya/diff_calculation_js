@@ -7,8 +7,9 @@ const makeDiff = (obj1, obj2) => {
 
   return allKeys.map((key) => {
     if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-      return { key, children: makeDiff(obj1[key], obj2[key]) };
+      return { key, state: 'nested', children: makeDiff(obj1[key], obj2[key]) };
     }
+
     const existsInObj1 = _.has(obj1, key);
     const existsInObj2 = _.has(obj2, key);
 
@@ -18,6 +19,7 @@ const makeDiff = (obj1, obj2) => {
           key, value: obj2[key], state: 'updated', oldValue: obj1[key],
         };
       }
+      return { key, value: obj2[key], state: 'remained' };
     }
 
     if (existsInObj1 && !existsInObj2) {
