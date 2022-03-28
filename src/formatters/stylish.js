@@ -27,7 +27,6 @@ const stringify = (obj, level) => {
 const formatToStylish = (diff) => {
   const styleNode = (node, level) => {
     const res = _.sortBy(node, 'key').map((item) => {
-      
       const indent = getIndent(level);
       const signIndent = getIndent(level, true);
 
@@ -37,7 +36,7 @@ const formatToStylish = (diff) => {
 
       const value = _.isObject(item.value) ? ['{', ...stringify(item.value, level), `${indent}}`].join('\n') : item.value;
 
-      if (item.state === 'added' || item.state === 'removed' ) {
+      if (item.state === 'added' || item.state === 'removed') {
         return `${signIndent}${STATES[item.state]} ${item.key}: ${value}`;
       }
 
@@ -49,10 +48,7 @@ const formatToStylish = (diff) => {
         return [del, add].join('\n');
       }
 
-      if (item.state === 'remained') {
-        return `${indent}${item.key}: ${value}`;
-      }
-
+      return `${indent}${item.key}: ${value}`;
     });
 
     return res;
