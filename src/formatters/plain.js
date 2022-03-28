@@ -30,7 +30,7 @@ const formatToPlain = (diff) => {
       }
 
       if (item.state === 'removed') {
-        return `${baseMessage} removed`;
+        return `${baseMessage} removed\n`;
       }
 
       return styleNode(item.children, [...parentPath, item.key]);
