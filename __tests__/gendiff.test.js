@@ -1,55 +1,52 @@
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-import genDiff from '../src/gendiff.js';
+import gendiff from '../index.js';
+import { readFileSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const getPathToFile = (fileName) => path.join(__dirname, '..', '__fixtures__', fileName);
 
-describe('test plain formatter for JSON and YAML files', () => {
-  test.each([
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'common.follow\' was added with value: false' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'common.setting3\' was updated. From true to null' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'group2\' was removed' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: 'Property \'group3\' was added with value: [complex value]' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'calling-birds\' was updated. From \'huey\' to \'fred\'' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'xmas\' was removed' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'xmas-fifth-day.location\' was added with value: \'a pear tree\'' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: 'Property \'xmas-fifth-day.partridges.location\' was removed' },
-  ])('.add($a, $b)', ({ a, b, expected }) => {
-    const diff = genDiff(getPathToFile(a), getPathToFile(b), 'plain');
-    expect(diff).toMatch(expected);
+const resultJson = readFileSync(getPathToFile('resultJson'), 'utf8');
+const resultStylish = readFileSync(getPathToFile('resultStylish'), 'utf8');
+const resultPlain =  readFileSync(getPathToFile('resultPlain'), 'utf8');
+
+const extensions = ['json', 'yml']
+
+
+describe('Test stylish formatter', () => {
+  test.each(extensions)('Check stylish formatter for %p extenstion', (extension) => {
+    const beforeFile = getPathToFile(`before.${extension}`);
+    const afterFile = getPathToFile(`after.${extension}`);
+
+    expect(gendiff(beforeFile, afterFile, 'stylish')).toEqual(resultStylish);
   });
 });
 
-describe('test json formatter for JSON and YAML files', () => {
-  test.each([
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '{"key":"setting2","state":"removed","value":200}' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '{"key":"group2","state":"removed","value":{"abc":12345,"deep":{"id":45}}}' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '{"key":"group3","state":"added","value":{"deep":{"id":{"number":45}},"fee":100500}}' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '{"key":"xmas","state":"removed","value":true}' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '{"key":"calling-birds","value":"fred","state":"updated","oldValue":"huey"}' },
+describe('Test JSON formatter', () => {
+  test.each(extensions)('Check JSON formatter for %p extenstion', (extension) => {
+    const beforeFile = getPathToFile(`before.${extension}`);
+    const afterFile = getPathToFile(`after.${extension}`);
 
-  ])('.add($a, $b)', ({ a, b, expected }) => {
-    const diff = genDiff(getPathToFile(a), getPathToFile(b), 'json');
-    expect(diff).toMatch(expected);
+    expect(gendiff(beforeFile, afterFile, 'json')).toEqual(resultJson);
   });
 });
 
-describe('test stylish formatter for JSON and YAML files', () => {
-  test.each([
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '      - setting3: true' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '      + setting3: null' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '              + wow: so much' },
-    { a: 'not_flat_json_1.json', b: 'not_flat_json_2.json', expected: '  + group3: {' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '  + calling-birds: fred' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '  - calling-birds: huey' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '    xmas-fifth-day: {' },
-    { a: 'not_flat_yaml_1.yml', b: 'not_flat_yaml_2.yaml', expected: '          - location: a pear tree' },
+describe('Test plain formatter', () => {
+  test.each(extensions)('Check plain formatter for %p extenstion', (extension) => {
+    const beforeFile = getPathToFile(`before.${extension}`);
+    const afterFile = getPathToFile(`after.${extension}`);
 
-  ])('.add($a, $b)', ({ a, b, expected }) => {
-    const diff = genDiff(getPathToFile(a), getPathToFile(b), 'stylish');
-    expect(diff).toMatch(expected);
+    expect(gendiff(beforeFile, afterFile, 'plain')).toEqual(resultPlain);
+  });
+});
+
+describe('Test default formatter', () => {
+  test.each(extensions)('Check default formatter for %p extenstion', (extension) => {
+    const beforeFile = getPathToFile(`before.${extension}`);
+    const afterFile = getPathToFile(`after.${extension}`);
+
+    expect(gendiff(beforeFile, afterFile)).toEqual(resultStylish);
   });
 });

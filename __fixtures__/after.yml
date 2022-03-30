@@ -1,11 +1,21 @@
-pi: 3.14159
-french-hens: 3
-calling-birds: fred
-xmas-fifth-day:
-  calling-birds: five
-  french-hens: 3
-  golden-rings: 5
-  partridges:
-    count: 2
-  turtle-doves: two
-  location: "a pear tree"
+common:
+  follow: false
+  setting1: Value 1
+  setting3:
+  setting4: blah blah
+  setting5:
+    key5: value5
+  setting6:
+    key: value
+    ops: vops
+    doge:
+      wow: so much
+group1:
+  foo: bar
+  baz: bars
+  nest: str
+group3:
+  deep:
+    id:
+      number: 45
+  fee: 100500
