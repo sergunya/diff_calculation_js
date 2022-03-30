@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-import gendiff from '../index.js';
 import { readFileSync } from 'fs';
+import gendiff from '../index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,10 +10,9 @@ const getPathToFile = (fileName) => path.join(__dirname, '..', '__fixtures__', f
 
 const resultJson = readFileSync(getPathToFile('resultJson'), 'utf8');
 const resultStylish = readFileSync(getPathToFile('resultStylish'), 'utf8');
-const resultPlain =  readFileSync(getPathToFile('resultPlain'), 'utf8');
+const resultPlain = readFileSync(getPathToFile('resultPlain'), 'utf8');
 
-const extensions = ['json', 'yml']
-
+const extensions = ['json', 'yml'];
 
 describe('Test stylish formatter', () => {
   test.each(extensions)('Check stylish formatter for %p extenstion', (extension) => {
