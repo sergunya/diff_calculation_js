@@ -13,15 +13,6 @@ const makeDiff = (obj1, obj2) => {
     const existsInObj1 = _.has(obj1, key);
     const existsInObj2 = _.has(obj2, key);
 
-    if (existsInObj1 && existsInObj2) {
-      if (obj1[key] !== obj2[key]) {
-        return {
-          key, value: obj2[key], state: 'updated', oldValue: obj1[key],
-        };
-      }
-      return { key, value: obj2[key], state: 'remained' };
-    }
-
     if (existsInObj1 && !existsInObj2) {
       return { key, state: 'removed', value: obj1[key] };
     }
@@ -30,7 +21,13 @@ const makeDiff = (obj1, obj2) => {
       return { key, state: 'added', value: obj2[key] };
     }
 
-    return { key, value: obj2[key] };
+    if (obj1[key] !== obj2[key]) {
+      return {
+        key, value: obj2[key], state: 'updated', oldValue: obj1[key],
+      };
+    }
+
+    return { key, value: obj2[key], state: 'remained' };
   });
 };
 
