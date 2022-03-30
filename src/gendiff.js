@@ -1,7 +1,7 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 import parseFile from './parsers.js';
-import getFormatter from './formatters/index.js';
+import formatDiff from './formatters/index.js';
 import makeDiff from './diff.js';
 
 const getAbsoluteFilePath = (filepath) => path.resolve(process.cwd(), filepath);
@@ -21,9 +21,8 @@ const genDiff = (src1, src2, formatName) => {
   const parsedFile2 = parseFile(data2, ext2);
 
   const diff = makeDiff(parsedFile1, parsedFile2);
-  const formatter = getFormatter(formatName);
 
-  return formatter(diff);
+  return formatDiff(diff, formatName);
 };
 
 export default genDiff;

@@ -14,4 +14,6 @@ const getFormatter = (formatterName) => {
   return formatToStylish;
 };
 
-export default getFormatter;
+const formatDiff = (diff, formatName) => getFormatter(formatName)(diff);
+
+export default formatDiff;
