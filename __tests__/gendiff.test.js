@@ -8,7 +8,7 @@ const __dirname = dirname(__filename);
 
 const getPathToFile = (fileName) => path.join(__dirname, '..', '__fixtures__', fileName);
 
-const resultJson = readFileSync(getPathToFile('resultJson'), 'utf8');
+const resultJson = readFileSync(getPathToFile('resultJSON'), 'utf8');
 const resultStylish = readFileSync(getPathToFile('resultStylish'), 'utf8');
 const resultPlain = readFileSync(getPathToFile('resultPlain'), 'utf8');
 
