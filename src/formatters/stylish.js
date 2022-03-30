@@ -25,13 +25,13 @@ const stringify = (obj, level) => {
 };
 
 const formatToStylish = (diff) => {
-  const styleNode = (node, level) => {
+  const formatNode = (node, level) => {
     const res = _.sortBy(node, 'key').map((item) => {
       const indent = getIndent(level);
       const signIndent = getIndent(level, true);
 
       if (item.state === 'nested') {
-        return [`${indent}${item.key}: {`, ...styleNode(item.children, level + 1), `${indent}}`].join('\n');
+        return [`${indent}${item.key}: {`, ...formatNode(item.children, level + 1), `${indent}}`].join('\n');
       }
 
       const value = _.isObject(item.value) ? ['{', ...stringify(item.value, level), `${indent}}`].join('\n') : item.value;
@@ -54,7 +54,7 @@ const formatToStylish = (diff) => {
     return res;
   };
 
-  const diffString = ['{', ...styleNode(diff, 1), '}'];
+  const diffString = ['{', ...formatNode(diff, 1), '}'];
 
   return diffString.join('\n');
 };

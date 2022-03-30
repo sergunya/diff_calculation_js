@@ -15,7 +15,7 @@ const valueToString = (value) => {
 const getPath = (parentPath, key) => (parentPath.length === 0 ? key : `${parentPath.join('.')}.${key}`);
 
 const formatToPlain = (diff) => {
-  const styleNode = (node, parentPath) => {
+  const formatNode = (node, parentPath) => {
     const result = _.sortBy(node, 'key').map((item) => {
       const baseMessage = `Property '${getPath(parentPath, item.key)}' was`;
       const value = valueToString(item.value);
@@ -33,13 +33,13 @@ const formatToPlain = (diff) => {
         return `${baseMessage} removed\n`;
       }
 
-      return styleNode(item.children, [...parentPath, item.key]);
+      return formatNode(item.children, [...parentPath, item.key]);
     });
 
     return result.flat();
   };
 
-  const diffString = [...styleNode(diff, [])];
+  const diffString = [...formatNode(diff, [])];
 
   return diffString.join('').trimEnd();
 };
